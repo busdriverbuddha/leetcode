@@ -1,22 +1,34 @@
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
+
         if numRows == 1:
             return s
+
         period = 2 * numRows - 2
+
         r = s[::period]
+
         for i in range(1, numRows - 1):
             k = 0
             while True:
-                try:
-                    r += s[i + k * period]
-                except IndexError:
+                index = k * period + i
+
+                if index >= len(s):
                     break
-                try:
-                    r += s[i + (k + 1) * period - 2 * i]
-                except IndexError:
+
+                r += s[index]
+
+                index = (k + 1) * period - i
+
+                if index >= len(s):
                     break
+
+                r += s[index]
+
                 k += 1
+
         r += s[numRows - 1::period]
+
         return r
 
 
