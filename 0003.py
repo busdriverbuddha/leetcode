@@ -1,25 +1,23 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        from collections import defaultdict
-
         if len(s) == 0:
             return 0
 
-        k = l = 0
+        left = right = 0
         maxlen = 1
-        seen = defaultdict(bool)
-        seen[s[0]] = True
+        seen = [False] * 128
+        seen[ord(s[0])] = True
 
-        for l in range(1, len(s)):
-            if not seen[s[l]]:
-                seen[s[l]] = True
-                if l - k + 1 > maxlen:
-                    maxlen = l - k + 1
+        for right in range(1, len(s)):
+            if not seen[ord(s[right])]:
+                seen[ord(s[right])] = True
+                if right - left + 1 > maxlen:
+                    maxlen = right - left + 1
             else:
-                while seen[s[l]] and k <= l:
-                    seen[s[k]] = False
-                    k += 1
-                seen[s[l]] = True
+                while seen[ord(s[right])] and left <= right:
+                    seen[ord(s[left])] = False
+                    left += 1
+                seen[ord(s[right])] = True
 
         return maxlen
 
